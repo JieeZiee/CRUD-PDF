@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//CRUD
 Route::resource('products', ProductController::class);
+
+//PDF
 Route::get('/createPDF', [ProductController::class,'createPDF'])->name('pdf.create');
+
+//Login Page
+Route::get('home_user', [AuthController::class, 'index']);
+Route::get('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class,'register']);
+Route::get('/logout', 'User@logout');
+
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/registerPost', 'registerPost');
+    Route::post('/loginPost', 'loginPost');
+});
